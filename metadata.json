@@ -1,0 +1,7 @@
+{
+  "name": "Kairon AI",
+  "description": "An AI-powered learning platform to accelerate understanding. Inspired by the wise tutor Chiron, Kairon AI helps users master their study material through summarization, interactive flashcards, semantic search, and Socratic dialogue.",
+  "requestFramePermissions": [
+    "microphone"
+  ]
+}
