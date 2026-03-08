@@ -5,9 +5,7 @@ import { Card } from '../ui/Card';
 import { Loader } from '../ui/Loader';
 import { getTutorResponse } from '../../services/amazonService';
 import useLocalStorage from '../../hooks/useLocalStorage';
-import { Difficulty, Category, Tab } from '../../types'; // Added Tab import
-
-// ... Imports for questions (dsaTop150, etc.) remain the same ...
+import { Difficulty, Category, Tab } from '../../types';
 import {
     dsaTop150,
     dsaBlind75,
@@ -519,7 +517,8 @@ Respond in ${language}.`;
                 'General Interview Knowledge Base',
                 [],
                 prompt,
-                language
+                language,
+                undefined
             );
 
             setExplanations(prev => ({ ...prev, [id]: response }));

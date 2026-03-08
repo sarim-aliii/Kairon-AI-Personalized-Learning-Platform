@@ -158,7 +158,7 @@ export const useSpeech = (languageName: string = 'English') => {
 
         recognition.onresult = (event) => {
             const fullTranscript = Array.from(event.results)
-                .map(result => result[0])
+                .map(result => (result as any)[0])
                 .map(result => result.transcript)
                 .join('');
             setTranscript(fullTranscript);

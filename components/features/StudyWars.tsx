@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { io, Socket } from 'socket.io-client';
+import io, { Socket } from 'socket.io-client';
 import { useAppContext } from '../../context/AppContext';
 import { Button } from '../ui/Button';
 import { Card } from '../ui/Card';
 import { Loader } from '../ui/Loader';
 
-// Connect to backend
+
 const socket: Socket = io(import.meta.env.VITE_API_URL || 'http://localhost:5001');
 
 export const StudyWars: React.FC = () => {
@@ -22,35 +22,35 @@ export const StudyWars: React.FC = () => {
     const [statusMessage, setStatusMessage] = useState('');
 
     useEffect(() => {
-        socket.on('room_created', (id) => {
+        socket.on('room_created', (id: string) => {
             setRoomId(id);
             setView('lobby');
             addNotification('Room created! Share code: ' + id, 'success');
         });
 
-        socket.on('update_players', (currentPlayers) => {
+        socket.on('update_players', (currentPlayers: any) => {
             setPlayers(currentPlayers);
         });
 
-        socket.on('game_status', (status) => {
+        socket.on('game_status', (status: any) => {
             if (status === 'generating_questions') {
                 setView('loading');
                 setStatusMessage('AI is preparing the battlefield (Generating Questions)...');
             }
         });
 
-        socket.on('game_started', (qs) => {
+        socket.on('game_started', (qs: any[]) => {
             setQuestions(qs);
             setCurrentQIndex(0);
             setView('game');
             startTimer();
         });
 
-        socket.on('update_scores', (updatedPlayers) => {
+        socket.on('update_scores', (updatedPlayers: any) => {
             setPlayers(updatedPlayers);
         });
 
-        socket.on('error', (msg) => {
+        socket.on('error', (msg: any) => {
             addNotification(msg, 'error');
             setView('menu');
         });
@@ -144,14 +144,16 @@ export const StudyWars: React.FC = () => {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <Card className="p-8 hover:border-indigo-500 transition-colors cursor-pointer border-2 border-transparent" onClick={handleCreateRoom}>
-                    <div className="text-center space-y-4">
-                        <div className="text-6xl">🛡️</div>
-                        <h3 className="text-2xl font-bold text-slate-800 dark:text-slate-100">Create Room</h3>
-                        <p className="text-sm text-slate-500">Host a game using your current project's content.</p>
-                        <Button className="w-full mt-4 bg-indigo-600 hover:bg-indigo-700">Host Battle</Button>
-                    </div>
-                </Card>
+                <div onClick={handleCreateRoom} className="cursor-pointer">
+                    <Card className="p-8 hover:border-indigo-500 transition-colors border-2 border-transparent h-full">
+                        <div className="text-center space-y-4">
+                            <div className="text-6xl">🛡️</div>
+                            <h3 className="text-2xl font-bold text-slate-800 dark:text-slate-100">Create Room</h3>
+                            <p className="text-sm text-slate-500">Host a game using your current project's content.</p>
+                            <Button className="w-full mt-4 bg-indigo-600 hover:bg-indigo-700">Host Battle</Button>
+                        </div>
+                    </Card>
+                </div>
 
                 <Card className="p-8 border-2 border-transparent">
                     <div className="text-center space-y-4">
@@ -183,7 +185,7 @@ export const StudyWars: React.FC = () => {
                 <div className="space-y-4">
                     <h3 className="text-lg font-semibold">Warriors Joined:</h3>
                     <div className="flex flex-wrap gap-4 justify-center">
-                        {Object.values(players).map((p: any, i) => (
+                        {Object.values(players).map((p: any, i: number) => (
                             <div key={i} className="flex items-center gap-3 px-6 py-3 bg-white dark:bg-slate-700 rounded-full shadow-sm border border-slate-200 dark:border-slate-600 animate-bounce">
                                 <div className="w-8 h-8 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center font-bold">
                                     {p.name.charAt(0)}
@@ -223,7 +225,7 @@ export const StudyWars: React.FC = () => {
                 </div>
                 
                 <div className="flex gap-6">
-                    {Object.values(players).map((p: any, i) => (
+                    {Object.values(players).map((p: any, i: number) => (
                         <div key={i} className="text-center">
                             <p className="text-xs text-slate-500 font-bold uppercase">{p.name}</p>
                             <p className="text-xl font-bold text-indigo-600">{p.score}</p>
@@ -292,7 +294,7 @@ export const StudyWars: React.FC = () => {
 
                 <div className="bg-white dark:bg-slate-800 rounded-lg shadow border border-slate-200 dark:border-slate-700 overflow-hidden">
                     <div className="p-4 bg-slate-50 dark:bg-slate-700 font-semibold border-b border-slate-200 dark:border-slate-600">Leaderboard</div>
-                    {sortedPlayers.map((p: any, index) => (
+                    {sortedPlayers.map((p: any, index: number) => (
                         <div key={index} className="flex justify-between items-center p-4 border-b border-slate-100 dark:border-slate-700 last:border-0">
                             <div className="flex items-center gap-3">
                                 <span className="w-6 h-6 rounded-full bg-slate-200 dark:bg-slate-600 flex items-center justify-center text-xs font-bold">

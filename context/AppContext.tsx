@@ -177,7 +177,8 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
         try {
             // Get local timezone offset in minutes (e.g., -330 for India)
             const timezoneOffset = new Date().getTimezoneOffset();
-            const updatedUser = await api.updateUserProgress(xpGained, category, timezoneOffset);
+            // FIX: Pass as single object
+            const updatedUser = await api.updateUserProgress({ xp: xpGained, category, timezoneOffset });
             
             if (updatedUser.level > (currentUser.level || 1)) {
                 addNotification(`🎉 Level Up! You are now Level ${updatedUser.level}!`, 'success');

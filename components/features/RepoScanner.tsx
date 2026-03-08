@@ -13,7 +13,6 @@ export const RepoScanner: React.FC = () => {
     const { llm, language, addNotification } = useAppContext();
     const [repoUrl, setRepoUrl] = useState('');
     
-    // We use a specific type for the result data
     const { 
         execute: scanRepo, 
         loading, 
@@ -44,6 +43,7 @@ export const RepoScanner: React.FC = () => {
                             Repository URL
                         </label>
                         <Input 
+                            label="Repository Link" 
                             value={repoUrl}
                             onChange={(e) => setRepoUrl(e.target.value)}
                             placeholder="https://github.com/facebook/react"
@@ -65,7 +65,7 @@ export const RepoScanner: React.FC = () => {
 
             {loading && (
                 <div className="flex flex-col items-center justify-center py-20">
-                    <Loader size="lg" />
+                    <Loader />
                     <p className="mt-6 text-slate-500 animate-pulse text-center">
                         Reading file tree...<br/>
                         Downloading source code...<br/>

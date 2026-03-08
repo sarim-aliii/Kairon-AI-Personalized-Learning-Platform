@@ -92,11 +92,9 @@ export const AudioAnalysis: React.FC = () => {
     // Manual file-to-base64 (client side op)
     try {
         const base64Data = await fileToBase64(mediaFile);
-        const text = await runTranscribeFile(llm, base64Data, mediaFile.type);
+        const text = await runTranscribeFile(llm, base64Data);
         setTranscribedText(text);
     } catch (e: any) {
-        // fileToBase64 might fail, so we catch here. 
-        // runTranscribeFile errors are handled by hook toast.
         addNotification(e.message, 'error');
     }
   }, [mediaFile, llm, runTranscribeFile, addNotification]);
